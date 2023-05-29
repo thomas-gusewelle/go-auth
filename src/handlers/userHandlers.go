@@ -8,5 +8,5 @@ import (
 func GetAllUsers(c *fiber.Ctx) error {
 	var users []db.User
 	query := db.Database.Find(&users)
-	return c.Render("users", fiber.Map{})
+	return c.Render("users", fiber.Map{"users": query})
 }
