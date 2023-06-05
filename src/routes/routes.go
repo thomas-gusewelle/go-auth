@@ -6,4 +6,6 @@ import (
 
 func Setup(app *fiber.App) {
 	IndexRoutes(app)
+	AuthRoutes(app)
+	UserRoutes(app)
 }

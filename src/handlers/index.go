@@ -14,6 +14,3 @@ func SignUp(c *fiber.Ctx) error {
 	return c.Render("signup", fiber.Map{})
 }
 
-func PostSingUp(c *fiber.Ctx) error {
-	return c.Redirect("/users")
-}

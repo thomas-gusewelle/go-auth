@@ -10,5 +10,4 @@ func IndexRoutes(app *fiber.App) {
 	index.Get("/", handlers.Index)
 	index.Get("/signin", handlers.SignIn)
 	index.Get("/signup", handlers.SignUp)
-	index.Post("signup", handlers.PostSingUp)
 }

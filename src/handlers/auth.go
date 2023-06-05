@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/thomas-gusewelle/go-auth/auth"
 	"github.com/thomas-gusewelle/go-auth/db"
@@ -24,9 +26,28 @@ func PostSignUp(c *fiber.Ctx) error {
 	db.Database.Create(&user)
 
 	jwt, err := auth.GenerateJWT(&user)
+	fmt.Println("JWT Print: ", jwt)
 	cookie := new(fiber.Cookie)
 	cookie.Name = "jwt"
 	cookie.Value = jwt
 	c.Cookie(cookie)
+	return c.Redirect("/user/all")
+}
+
+func PostSignIn(c *fiber.Ctx) error {
+
+	var user db.User
+	email := c.FormValue("email")
+	password := c.FormValue("password")
+	db.Database.Where("email = ?", email).First(&user)
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return err
+	}
 	return c.Redirect("/users")
+}
+
+func PostSignOut(c *fiber.Ctx) error {
+	c.ClearCookie("jwt")
+	return c.Redirect("/")
 }
